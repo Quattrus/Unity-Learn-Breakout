@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 896144782}
+  highestScorer: {fileID: 1298223369}
 --- !u!1 &2036803266
 GameObject:
   m_ObjectHideFlags: 0

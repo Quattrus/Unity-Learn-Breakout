@@ -14,14 +14,27 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public string playerName;
-        public int highScore;
+        public string highScorePlayerName;
+        public int highestScore;
     }
     public static GameManager instance = null;
     private string currentPlayerName;
     [SerializeField] GameObject inputField;
+    [SerializeField] TextMeshProUGUI highestScorer;
     private int highScore;
     private string playerName;
+    private string highScorePlayerName;
+    public string HighScorePlayerName
+    {
+        get
+        {
+            return highScorePlayerName;
+        }
+        set
+        {
+            highScorePlayerName = value;
+        }
+    }
 
     public string PlayerName
     {
@@ -53,6 +66,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        LoadHighScore();
+    }
+    private void Start()
+    {
+        highestScorer.text = $"Highest Score: {highScorePlayerName}: {highScore}";
     }
 
     private void Update()
@@ -67,7 +85,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainScene()
     {
-        Debug.Log("name inputted: " + currentPlayerName);
         SceneManager.LoadScene(1);
     }
 
@@ -83,8 +100,8 @@ public class GameManager : MonoBehaviour
     public void SaveHighScore()
     {
         SaveData data = new SaveData();
-        data.highScore = highScore;
-        data.playerName = currentPlayerName;
+        data.highestScore = highScore;
+        data.highScorePlayerName = highScorePlayerName;
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
@@ -98,8 +115,8 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            highScore = data.highScore;
-            playerName = data.playerName;
+            highScore = data.highestScore;
+            highScorePlayerName = data.highScorePlayerName;
         }
     }
 }
