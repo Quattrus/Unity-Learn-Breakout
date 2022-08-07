@@ -4,6 +4,9 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GameManager : MonoBehaviour
 {
@@ -25,11 +28,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-        sceneNum = 0;
-    }
-
     public void CurrentPlayerInput(string player)
     {
         player = inputField.GetComponent<TextMeshProUGUI>().text;
@@ -38,9 +36,16 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainScene()
     {
-        sceneNum++;
         Debug.Log("name inputted: " + currentPlayerName);
         SceneManager.LoadScene(1);
     }
 
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
+    }
 }
