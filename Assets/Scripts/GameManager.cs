@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -9,12 +10,14 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     private string currentPlayerName;
+    [SerializeField] TextMeshProUGUI playerNameDisplay;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
@@ -25,7 +28,12 @@ public class GameManager : MonoBehaviour
     public void CurrentPlayerInput(string player)
     {
         currentPlayerName = player;
-        Debug.Log(currentPlayerName);
+        playerNameDisplay.text = "Player: " + currentPlayerName;
+    }
+
+    public void LoadMainScene()
+    {
+        SceneManager.LoadScene(1);
     }
 
 }
