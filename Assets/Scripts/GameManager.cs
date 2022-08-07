@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
+        Debug.Log("Pressed");
 #else
         Application.Quit();
 #endif

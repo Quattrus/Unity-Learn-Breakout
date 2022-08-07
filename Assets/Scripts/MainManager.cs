@@ -88,4 +88,9 @@ public class MainManager : MonoBehaviour
         highScoreText.text = "Best Score: " + highScore + " Name: " + GameManager.instance.HighScorePlayerName;   
         GameOverText.SetActive(true);
     }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
