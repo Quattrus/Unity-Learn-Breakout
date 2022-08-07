@@ -10,11 +10,37 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
-    private int sceneNum;
 
+    [System.Serializable]
+    class SaveData
+    {
+        public string playerName;
+        public int highScore;
+    }
+    public static GameManager instance = null;
     private string currentPlayerName;
     [SerializeField] GameObject inputField;
+    private int highScore;
+    private string playerName;
+
+    public string PlayerName
+    {
+        get
+        {
+            return playerName;
+        }
+    }
+    public int HighScore
+    {
+        get
+        {
+            return highScore;
+        }
+        set
+        {
+            highScore = value;
+        }
+    }
 
     private void Awake()
     {
@@ -27,6 +53,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        playerName = currentPlayerName;
     }
     public void CurrentPlayerInput(string player)
     {
@@ -47,5 +78,28 @@ public class GameManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void SaveHighScore()
+    {
+        SaveData data = new SaveData();
+        data.highScore = highScore;
+        data.playerName = currentPlayerName;
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadHighScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            highScore = data.highScore;
+            playerName = data.playerName;
+        }
     }
 }
