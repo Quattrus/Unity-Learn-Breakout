@@ -8,9 +8,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    private int sceneNum;
 
     private string currentPlayerName;
-    [SerializeField] TextMeshProUGUI playerNameDisplay;
+    [SerializeField] GameObject inputField;
 
     private void Awake()
     {
@@ -19,20 +20,26 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (instance != this)
+        else if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        sceneNum = 0;
+    }
 
     public void CurrentPlayerInput(string player)
     {
+        player = inputField.GetComponent<TextMeshProUGUI>().text;
         currentPlayerName = player;
-        playerNameDisplay.text = "Player: " + currentPlayerName;
     }
 
     public void LoadMainScene()
     {
+        sceneNum++;
+        Debug.Log("name inputted: " + currentPlayerName);
         SceneManager.LoadScene(1);
     }
 
