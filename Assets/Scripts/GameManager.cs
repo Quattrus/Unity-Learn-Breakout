@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
     }
     public static GameManager instance = null;
     private string currentPlayerName;
-    [SerializeField] GameObject inputField;
-    [SerializeField] TextMeshProUGUI highestScorer;
     private int highScore;
     private string playerName;
     private string highScorePlayerName;
@@ -68,10 +66,6 @@ public class GameManager : MonoBehaviour
         }
         LoadHighScore();
     }
-    private void Start()
-    {
-        highestScorer.text = $"Highest Score: {highScorePlayerName}: {highScore}";
-    }
 
     private void Update()
     {
@@ -79,23 +73,7 @@ public class GameManager : MonoBehaviour
     }
     public void CurrentPlayerInput(string player)
     {
-        player = inputField.GetComponent<TextMeshProUGUI>().text;
         currentPlayerName = player;
-    }
-
-    public void LoadMainScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        EditorApplication.ExitPlaymode();
-        Debug.Log("Pressed");
-#else
-        Application.Quit();
-#endif
     }
 
     public void SaveHighScore()
